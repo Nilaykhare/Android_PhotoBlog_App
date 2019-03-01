@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,6 +39,7 @@ public class CommentActivity extends AppCompatActivity {
 
     private Toolbar commentToolbar;
     private String blog_post_id;
+    private String blog_user_id;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
     private  String current_user_id;
@@ -58,6 +60,7 @@ public class CommentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         blog_post_id =  getIntent().getStringExtra("blog_post_id");
+        blog_user_id = getIntent().getStringExtra("blog_user_id");
 
         comment_field =  findViewById(R.id.comment_field);
         comment_post_btn = findViewById(R.id.comment_post_btn);
@@ -100,6 +103,12 @@ public class CommentActivity extends AppCompatActivity {
                         }
                     });
 
+                    Map<String, Object> commentNotificationMap = new HashMap<>();
+                    commentNotificationMap.put("user_id", firebaseAuth.getCurrentUser().getUid());
+                    commentNotificationMap.put("timestamp", FieldValue.serverTimestamp());
+                    commentNotificationMap.put("message", "commented your post");
+                    commentNotificationMap.put("blog_post_id",blog_post_id);
+                    firebaseFirestore.collection("Notification/" + blog_user_id + "/Notification").document().set(commentNotificationMap);
                 }
                 else
                 {
@@ -120,7 +129,7 @@ public class CommentActivity extends AppCompatActivity {
                         if (doc.getType() == DocumentChange.Type.ADDED) {
 
                             String commentId = doc.getDocument().getId();
-                            Comments comments = doc.getDocument().toObject(Comments.class).withId(commentId);
+                            final Comments comments = doc.getDocument().toObject(Comments.class).withId(commentId);
                             commentsList.add(comments);
                             commentRecycleAdapter.notifyDataSetChanged();
 

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -61,170 +60,183 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int x) {
+
+        final int i = x;
 
         viewHolder.setIsRecyclable(false);
 
         String desc_data = blog_list.get(i).getDesc();
-         viewHolder.setDescText(desc_data);
+        viewHolder.setDescText(desc_data);
 
-         String image_uri = blog_list.get(i).getImage_url();
-         String thumbnailuri = blog_list.get(i).getThumb();
-         viewHolder.setBlogImage(image_uri,thumbnailuri);
+        String image_uri = blog_list.get(i).getImage_url();
+        String thumbnailuri = blog_list.get(i).getThumb();
+        viewHolder.setBlogImage(image_uri,thumbnailuri);
 
-         final String blog_user_id = blog_list.get(i).getUser_id();
+        final String blog_user_id = blog_list.get(i).getUser_id();
 
-         final String blogPostId = blog_list.get(i).BlogPostId;
+        final String blogPostId = blog_list.get(i).BlogPostId;
 
-         final String currentUserId =  firebaseAuth.getCurrentUser().getUid();
+        final String currentUserId =  firebaseAuth.getCurrentUser().getUid();
 
-         if (blog_user_id.equals(currentUserId))
-         {
-             viewHolder.blogDelIcon.setVisibility(View.VISIBLE);
-         }
+        if (blog_user_id.equals(currentUserId))
+        {
+            viewHolder.blogDelIcon.setVisibility(View.VISIBLE);
+        }
 
-         viewHolder.blogDelIcon.setOnClickListener(new View.OnClickListener() {
+        viewHolder.blogDelIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewHolder.blogDelIcon.setVisibility(View.INVISIBLE);
                 viewHolder.blogDeleteBtn.setVisibility(View.VISIBLE);
             }
         });
-         viewHolder.blogDeleteBtn.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 viewHolder.blogDelIcon.setImageResource(R.mipmap.action_delete_icon);
-                 viewHolder.blogDelIcon.setVisibility(View.VISIBLE);
-                 viewHolder.blogDeleteBtn.setVisibility(View.INVISIBLE);
+        viewHolder.blogDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.blogDelIcon.setImageResource(R.mipmap.action_delete_icon);
+                viewHolder.blogDelIcon.setVisibility(View.VISIBLE);
+                viewHolder.blogDeleteBtn.setVisibility(View.INVISIBLE);
 
-                 firebaseFirestore.collection("Posts").document(blogPostId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                     @Override
-                     public void onSuccess(Void aVoid) {
+                firebaseFirestore.collection("Posts").document(blogPostId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
 
-                         blog_list.remove(i);
-                         user_list.remove(i);
+                        blog_list.remove(i);
+                        user_list.remove(i);
 
-                     }
-                 });
+                    }
+                });
 
-             }
-         });
-
-
-         if (firebaseAuth.getCurrentUser() != null) {
-             String username = user_list.get(i).getName();
-             String userImage = user_list.get(i).getImage();
-             viewHolder.setUserData(username, userImage);
+            }
+        });
 
 
-             //retriving timestamp as a long value to dateformat
-             try {
-                 long milliseconds = blog_list.get(i).getTimestamp().getTime();
-                 String dateString = DateFormat.format("dd/MM/yyyy", new Date(milliseconds)).toString();
-                 viewHolder.setTime(dateString);
-             } catch (Exception e) {
-
-                 //Toast.makeText(context, "Exception : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-             }
+        if (firebaseAuth.getCurrentUser() != null) {
+            String username = user_list.get(i).getName();
+            String userImage = user_list.get(i).getImage();
+            viewHolder.setUserData(username, userImage);
 
 
-             //Likes on click feature
-             viewHolder.blogLikeBtn.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
+            //retriving timestamp as a long value to dateformat
+            try {
+                long milliseconds = blog_list.get(i).getTimestamp().getTime();
+                String dateString = DateFormat.format("dd/MM/yyyy", new Date(milliseconds)).toString();
+                viewHolder.setTime(dateString);
+            } catch (Exception e) {
+
+                //Toast.makeText(context, "Exception : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
 
 
-                     firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                         @Override
-                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                             if (!task.getResult().exists()) {
-                                 Map<String, Object> likesMap = new HashMap<>();
-                                 likesMap.put("timestamp", FieldValue.serverTimestamp());
-                                 firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).set(likesMap);
+            //Likes on click feature
+            viewHolder.blogLikeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                             } else {
-                                 firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).delete();
-                             }
-                         }
-                     });
-                 }
-             });
+                    firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (!task.getResult().exists()) {
+                                Map<String, Object> likesMap = new HashMap<>();
+                                likesMap.put("timestamp", FieldValue.serverTimestamp());
+                                firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).set(likesMap);
 
-             //get Like feature
-             try{
-             firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).addSnapshotListener((Activity) context,new EventListener<DocumentSnapshot>() {
-                 @Override
-                 public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-
-                     if (documentSnapshot.exists()) {
-
-                         viewHolder.blogLikeBtn.setImageDrawable(context.getDrawable(R.mipmap.action_like_accent));
-
-                     } else
-                         viewHolder.blogLikeBtn.setImageDrawable(context.getDrawable(R.mipmap.action_like_gray));
-                 }
-             });}catch (Exception e){}
-
-             //get Likes Count
-             try {
-                 firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").addSnapshotListener((Activity) context, new EventListener<QuerySnapshot>() {
-                     @Override
-                     public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
-
-                         if (!queryDocumentSnapshots.isEmpty()) {
-
-                             int count = queryDocumentSnapshots.size();
-                             viewHolder.upadteLikeCount(count);
-
-                         } else {
-
-                             viewHolder.upadteLikeCount(0);
-
-                         }
-
-                     }
-                 });
-             }
-             catch (Exception e){}
+                                //like notification add
+                                Map<String, Object> likeNotificationMap = new HashMap<>();
+                                likeNotificationMap.put("user_id", firebaseAuth.getCurrentUser().getUid());
+                                likeNotificationMap.put("timestamp", FieldValue.serverTimestamp());
+                                likeNotificationMap.put("message", "liked your post");
+                                likeNotificationMap.put("blog_post_id",blogPostId);
+                                firebaseFirestore.collection("Notification/" + blog_user_id + "/Notification").document().set(likeNotificationMap);
 
 
-             firebaseFirestore.collection("Posts/" + blogPostId + "/Comments").addSnapshotListener((Activity) context, new EventListener<QuerySnapshot>() {
-                 @Override
-                 public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
+                            } else {
+                                firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).delete();
+                            }
+                        }
+                    });
+                }
+            });
 
-                     if (!queryDocumentSnapshots.isEmpty()) {
+            //get Like feature
+            try{
+                firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).addSnapshotListener((Activity) context,new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
 
-                         int count = queryDocumentSnapshots.size();
-                         viewHolder.upadteCommentCount(count);
+                        if (documentSnapshot.exists()) {
 
-                     } else {
-                         viewHolder.upadteCommentCount(0);
-                     }
+                            viewHolder.blogLikeBtn.setImageDrawable(context.getDrawable(R.mipmap.action_like_accent));
 
-                 }
-             });
+                        } else {
+                            viewHolder.blogLikeBtn.setImageDrawable(context.getDrawable(R.mipmap.action_like_gray));
+                        }
+                    }
+                });}catch (Exception e){}
 
-             viewHolder.blogCommentBtn.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     Intent commentIntent = new Intent(context, CommentActivity.class);
-                     commentIntent.putExtra("blog_post_id", blogPostId);
-                     context.startActivity(commentIntent);
-                 }
-             });
+            //get Likes Count
+            try {
+                firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").addSnapshotListener((Activity) context, new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
 
-             String user_id1 =  blog_list.get(i).getUser_id();
-             firebaseFirestore.collection("User").document(user_id1).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                 @Override
-                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                     if (task.isSuccessful()){
-                         String username = task.getResult().getString("name");
-                         String userImage = task.getResult().getString("image");
-                     }
-                 }
-             });
-         }
+                        if (!queryDocumentSnapshots.isEmpty()) {
+
+                            int count = queryDocumentSnapshots.size();
+                            viewHolder.upadteLikeCount(count);
+
+                        } else {
+
+                            viewHolder.upadteLikeCount(0);
+
+                        }
+
+                    }
+                });
+            }
+            catch (Exception e){}
+
+            try {
+                firebaseFirestore.collection("Posts/" + blogPostId + "/Comments").addSnapshotListener((Activity) context, new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
+
+                        if (!queryDocumentSnapshots.isEmpty()) {
+
+                            int count = queryDocumentSnapshots.size();
+                            viewHolder.upadteCommentCount(count);
+
+                        } else {
+                            viewHolder.upadteCommentCount(0);
+                        }
+
+                    }
+                });
+            }catch (Exception e){}
+
+            viewHolder.blogCommentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent commentIntent = new Intent(context, CommentActivity.class);
+                    commentIntent.putExtra("blog_post_id", blogPostId);
+                    commentIntent.putExtra("blog_user_id",blog_user_id);
+                    context.startActivity(commentIntent);
+                }
+            });
+
+            String user_id1 =  blog_list.get(i).getUser_id();
+            firebaseFirestore.collection("User").document(user_id1).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()){
+                        String username = task.getResult().getString("name");
+                        String userImage = task.getResult().getString("image");
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -251,7 +263,7 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
             super(itemView);
             mView = itemView;
 
-            blogLikeBtn = mView.findViewById(R.id.blog_like_btn);
+            blogLikeBtn = mView.findViewById(R.id.blog_like_btn_photo);
             blogCommentBtn =  mView.findViewById(R.id.blog_comment_btn);
 
             blogDeleteBtn = mView.findViewById(R.id.deletePostBtn);
@@ -260,13 +272,13 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
         }
 
         public  void setDescText (String descText){
-             descView =  mView.findViewById(R.id.blog_desc);
+            descView =  mView.findViewById(R.id.blog_desc_photo);
             descView.setText(descText);
         }
 
         public void setBlogImage(String downloadUri,String thumburi){
 
-            blogImageView = mView.findViewById(R.id.blog_image);
+            blogImageView = mView.findViewById(R.id.blog_image_photo);
 
             RequestOptions placeHolder =  new RequestOptions();
             placeHolder.placeholder(R.drawable.ic_launcher);
@@ -284,8 +296,8 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
 
         public void setUserData(String name,String image)
         {
-            blogUserImage =  mView.findViewById(R.id.blog_user_image);
-            blogUserName =  mView.findViewById(R.id.blog_user_name);
+            blogUserImage =  mView.findViewById(R.id.blog_user_image_photo);
+            blogUserName =  mView.findViewById(R.id.blog_user_name_photo);
 
             blogUserName.setText(name);
             RequestOptions placeHolder = new RequestOptions();

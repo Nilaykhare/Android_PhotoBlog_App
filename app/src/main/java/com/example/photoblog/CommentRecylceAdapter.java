@@ -116,7 +116,7 @@ public class CommentRecylceAdapter extends RecyclerView.Adapter<CommentRecylceAd
 
             comment_user_name.setText(name);
             RequestOptions placeHolder = new RequestOptions();
-            placeHolder.placeholder(R.drawable.ic_launcher);
+            placeHolder.placeholder(R.color.WhiteTransparentHalf);
             Glide.with(context).applyDefaultRequestOptions(placeHolder).load(image).into(comment_user_image);
         }
         public void setTime(String date)

@@ -80,7 +80,7 @@ public class AccountFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore =  FirebaseFirestore.getInstance();
         user_id = firebaseAuth.getCurrentUser().getUid();
-        firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener(getActivity(),new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){

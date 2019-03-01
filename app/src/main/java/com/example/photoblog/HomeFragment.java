@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -90,7 +91,7 @@ public class HomeFragment extends Fragment {
 
                     if (!documentSnapshots.isEmpty()) {
 
-                        //if (isFirstPageisLoaded)
+                        if (isFirstPageisLoaded)
                         {
                             lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
                             blog_list.clear();
@@ -134,6 +135,11 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
+
+
+
+
+
         // Inflate the layout for this fragment
         return view;
     }

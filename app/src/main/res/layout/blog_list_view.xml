@@ -23,7 +23,7 @@
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/blog_user_image"
+                android:id="@+id/blog_user_image_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
@@ -33,14 +33,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/blog_user_name"
+                android:id="@+id/blog_user_name_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/Blog_username"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/blog_user_image"
+                app:layout_constraintStart_toEndOf="@+id/blog_user_image_photo"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -49,11 +49,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/blog_post_date"
-                app:layout_constraintStart_toEndOf="@+id/blog_user_image"
-                app:layout_constraintTop_toBottomOf="@+id/blog_user_name" />
+                app:layout_constraintStart_toEndOf="@+id/blog_user_image_photo"
+                app:layout_constraintTop_toBottomOf="@+id/blog_user_name_photo" />
 
             <ImageView
-                android:id="@+id/blog_image"
+                android:id="@+id/blog_image_photo"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_marginTop="16dp"
@@ -61,11 +61,11 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/blog_user_image"
+                app:layout_constraintTop_toBottomOf="@+id/blog_user_image_photo"
                 app:srcCompat="@color/WhiteTransparentHalf" />
 
             <TextView
-                android:id="@+id/blog_desc"
+                android:id="@+id/blog_desc_photo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -74,10 +74,10 @@
                 android:text="@string/hy_nilay_here_it_is_my_first_post_enjoy_guys_new_blog_app_hhhbn_h_jn_hjbhjjkbuyjhbmnvhj_mnbhjbhjvfyhjbjyuh"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/blog_image" />
+                app:layout_constraintTop_toBottomOf="@+id/blog_image_photo" />
 
             <ImageView
-                android:id="@+id/blog_like_btn"
+                android:id="@+id/blog_like_btn_photo"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="16dp"
@@ -85,7 +85,7 @@
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/blog_desc"
+                app:layout_constraintTop_toBottomOf="@+id/blog_desc_photo"
                 app:srcCompat="@mipmap/action_like_gray" />
 
             <TextView
@@ -97,8 +97,8 @@
                 android:layout_marginBottom="16dp"
                 android:text="0 LIkes"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/blog_like_btn"
-                app:layout_constraintTop_toBottomOf="@+id/blog_desc" />
+                app:layout_constraintStart_toEndOf="@+id/blog_like_btn_photo"
+                app:layout_constraintTop_toBottomOf="@+id/blog_desc_photo" />
 
             <ImageView
                 android:id="@+id/blog_comment_btn"
@@ -109,7 +109,7 @@
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/blog_desc"
+                app:layout_constraintTop_toBottomOf="@+id/blog_desc_photo"
                 app:srcCompat="@mipmap/action_comment_button" />
 
             <TextView
@@ -122,7 +122,7 @@
                 android:text="0 comments"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/blog_comment_btn"
-                app:layout_constraintTop_toBottomOf="@+id/blog_desc" />
+                app:layout_constraintTop_toBottomOf="@+id/blog_desc_photo" />
 
             <Button
                 android:id="@+id/deletePostBtn"
@@ -135,7 +135,7 @@
                 android:text="Delete Post"
                 android:textAllCaps="false"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/blog_image"
+                app:layout_constraintBottom_toTopOf="@+id/blog_image_photo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -147,7 +147,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/blog_image"
+                app:layout_constraintBottom_toTopOf="@+id/blog_image_photo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
