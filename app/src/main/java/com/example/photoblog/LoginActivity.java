@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mLoginRegBtn;
     private  FirebaseAuth mAuth;
     private ProgressBar mLoginProgressBar;
+    private Button forgotButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBtn =  (Button) findViewById(R.id.login_btn);
         mLoginRegBtn = (Button) findViewById(R.id.login_reg_btn);
         mLoginProgressBar = (ProgressBar) findViewById(R.id.login_progressBar);
+        forgotButton =  findViewById(R.id.forget_btn);
+
         mLoginProgressBar.setVisibility(View.INVISIBLE);
 
         mLoginRegBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +80,13 @@ public class LoginActivity extends AppCompatActivity {
 
                     });
                 }
+            }
+        });
+
+        forgotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,ForgetPasswordActivity.class));
             }
         });
     }
