@@ -7,7 +7,10 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -49,9 +52,9 @@ public class CommentRecylceAdapter extends RecyclerView.Adapter<CommentRecylceAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
-        String commentID = commentsList.get(i).CommentId;
+        final String commentID = commentsList.get(i).CommentId;
 
         viewHolder.setIsRecyclable(false);
 
@@ -83,6 +86,33 @@ public class CommentRecylceAdapter extends RecyclerView.Adapter<CommentRecylceAd
         catch (Exception e){
 
         }
+        String current_user_id =  firebaseAuth.getCurrentUser().getUid();
+        if (current_user_id.equals(user_id) || current_user_id.equals(CommentActivity.blog_user_id)){
+            viewHolder.deleteIcon.setVisibility(View.VISIBLE);
+        }
+        viewHolder.deleteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.deleteIcon.setVisibility(View.INVISIBLE);
+                viewHolder.deleteconfirm.setVisibility(View.VISIBLE);
+            }
+        });
+        viewHolder.deleteconfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseFirestore.collection("Posts/"+CommentActivity.blog_post_id+"/Comments").document(commentID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(context, "Comment deleted", Toast.LENGTH_SHORT).show();
+                            commentsList.remove(i);
+                            notifyDataSetChanged();
+                        }
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -98,10 +128,14 @@ public class CommentRecylceAdapter extends RecyclerView.Adapter<CommentRecylceAd
         private TextView comment_user_name;
         private CircleImageView comment_user_image;
         private TextView commentDate;
+        private Button deleteconfirm;
+        private ImageView deleteIcon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mView=itemView;
+            deleteconfirm = mView.findViewById(R.id.commentDeletePostBtn);
+            deleteIcon = mView.findViewById(R.id.commentDeleteIcon);
         }
         public void setComment_message(String message){
 

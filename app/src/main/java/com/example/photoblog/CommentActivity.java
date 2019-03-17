@@ -38,8 +38,8 @@ public class CommentActivity extends AppCompatActivity {
     private Button comment_post_btn;
 
     private Toolbar commentToolbar;
-    private String blog_post_id;
-    private String blog_user_id;
+    public static String blog_post_id;
+    public static String blog_user_id;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
     private  String current_user_id;

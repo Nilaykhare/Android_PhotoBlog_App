@@ -39,6 +39,8 @@ public class FriendsPostFragment extends Fragment {
     private DocumentSnapshot lastVisible;
     private Boolean isFirstPageisLoaded = true;
     public  List<User> user_list;
+    private Boolean loadPost = false;
+    int x;
 
 
 
@@ -80,6 +82,7 @@ public class FriendsPostFragment extends Fragment {
 
                 }
             });
+
 
             Query firstQuery = firebaseFirestore.collection("Posts").orderBy("timestamp",Query.Direction.DESCENDING).limit(3);
 
@@ -190,3 +193,25 @@ public class FriendsPostFragment extends Fragment {
     }
 
 }
+/*
+firebaseFirestore.collection("Notification/" + firebaseAuth.getCurrentUser().getUid() + "/Friends").document(blogUserId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                                                    if (documentSnapshot.exists()){
+
+                                                        if (isFirstPageisLoaded) {
+                                                            user_list.add(0, user);
+                                                            blog_list.add(0, blogPost);
+                                                            blogRecycleAdapter.notifyDataSetChanged();
+
+                                                        } else {
+
+                                                            blog_list.add(blogPost);
+                                                            user_list.add(user);
+                                                            blogRecycleAdapter.notifyDataSetChanged();
+                                                        }
+                                                    }
+
+                                                }
+                                            });
+ */
