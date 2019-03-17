@@ -143,6 +143,29 @@ public class ViewBlogUserProfile extends AppCompatActivity {
             }
         });
 
+        blogRemoveFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseFirestore.collection("Notification/" + blog_user_id + "/Friends").document(user_id).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            firebaseFirestore.collection("Notification/" +user_id + "/Friends").document(blog_user_id ).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        blogAddFriend.setVisibility(View.VISIBLE);
+                                        blogRemoveFriend.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(ViewBlogUserProfile.this, "Friend removed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
 
         firebaseFirestore.collection("User").document(blog_user_id).get()
                 .addOnCompleteListener(ViewBlogUserProfile.this, new OnCompleteListener<DocumentSnapshot>() {
