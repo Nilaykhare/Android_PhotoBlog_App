@@ -178,6 +178,7 @@ public class SetupActivity extends AppCompatActivity {
         Map<String,String> user_map = new HashMap<>();
         user_map.put("name",user_name);
         user_map.put("image",download_uri.toString());
+        user_map.put("id",firebaseAuth.getCurrentUser().getUid());
 
         firebaseFirestore.collection("User").document(user_id).set(user_map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

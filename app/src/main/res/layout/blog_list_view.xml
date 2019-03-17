@@ -71,6 +71,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:maxLines="10"
                 android:text="@string/hy_nilay_here_it_is_my_first_post_enjoy_guys_new_blog_app_hhhbn_h_jn_hjbhjjkbuyjhbmnvhj_mnbhjbhjvfyhjbjyuh"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

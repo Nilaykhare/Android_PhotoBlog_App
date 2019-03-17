@@ -64,8 +64,9 @@ public class CommentActivity extends AppCompatActivity {
 
         comment_field =  findViewById(R.id.comment_field);
         comment_post_btn = findViewById(R.id.comment_post_btn);
-
         comment_list =  findViewById(R.id.comment_list);
+
+
         commentsList = new ArrayList<>();
         commentRecycleAdapter = new CommentRecylceAdapter(commentsList);
         comment_list.setHasFixedSize(true);

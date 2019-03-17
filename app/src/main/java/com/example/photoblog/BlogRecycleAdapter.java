@@ -33,7 +33,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.ViewHolder> {
+public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.ViewHolder>  {
 
     public List<BlogPost> blog_list;
     public Context context;
@@ -104,6 +104,7 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
 
                         blog_list.remove(i);
                         user_list.remove(i);
+                        notifyDataSetChanged();
 
                     }
                 });
@@ -113,6 +114,7 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
 
 
         if (firebaseAuth.getCurrentUser() != null) {
+
             String username = user_list.get(i).getName();
             String userImage = user_list.get(i).getImage();
             viewHolder.setUserData(username, userImage);
@@ -236,6 +238,17 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
                     }
                 }
             });
+
+            //viewing Bloguser profile
+            viewHolder.blogUserName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent BlogUserIntent = new Intent(context,ViewBlogUserProfile.class);
+                    BlogUserIntent.putExtra("blogUserId",blog_user_id);
+                    context.startActivity(BlogUserIntent);
+                }
+            });
         }
     }
 
@@ -268,6 +281,8 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
 
             blogDeleteBtn = mView.findViewById(R.id.deletePostBtn);
             blogDelIcon =  mView.findViewById(R.id.delete_icon);
+            blogUserName =  mView.findViewById(R.id.blog_user_name_photo);
+
 
         }
 

@@ -11,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -70,16 +68,19 @@ public class AccountFragment extends Fragment {
 
         blog_list_view = view.findViewById(R.id.profile_blog_posts);
         blogRecycleAdapter = new BlogRecycleAdapter(blog_list,user_list);
-
         blog_list_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         blog_list_view.setAdapter(blogRecycleAdapter);
 
-        profile_user_name = view.findViewById(R.id.profile_user_name);
-        profile_user_image= view.findViewById(R.id.profile_user_image);
+        profile_user_name = view.findViewById(R.id.blog_view_profile_user_name);
+        profile_user_image= view.findViewById(R.id.blog_view_profile_user_image);
         profile_user_email =  view.findViewById(R.id.profile_user_email);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore =  FirebaseFirestore.getInstance();
+
+
         user_id = firebaseAuth.getCurrentUser().getUid();
+
         firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener(getActivity(),new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -117,7 +118,7 @@ public class AccountFragment extends Fragment {
                 }
             });
 
-            Query firstQuery = firebaseFirestore.collection("Posts").orderBy("timestamp",Query.Direction.DESCENDING).limit(3);
+            Query firstQuery = firebaseFirestore.collection("Posts").orderBy("timestamp",Query.Direction.DESCENDING);
 
             firstQuery.addSnapshotListener(Objects.requireNonNull(getActivity()),new EventListener<QuerySnapshot>() {
                 @Override
@@ -125,7 +126,7 @@ public class AccountFragment extends Fragment {
 
                     if (!documentSnapshots.isEmpty()) {
 
-                        //if (isFirstPageisLoaded)
+                        if (isFirstPageisLoaded)
                         {
                             lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
                             blog_list.clear();

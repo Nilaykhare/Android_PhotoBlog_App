@@ -78,12 +78,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.bottom_action_home:
                         replaceFragment(homeFragment);
+                        getSupportActionBar().setTitle("Photo Blog");
                         return true;
                     case R.id.bottom_action_notification:
                         replaceFragment(notificationFragment);
+                        getSupportActionBar().setTitle("Notifications");
                         return true;
                     case R.id.bottom_action_account:
                         replaceFragment(accountFragment);
+                        getSupportActionBar().setTitle("My profile");
                         return true;
                         default:
                             return false;
@@ -133,9 +136,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.main_menu,menu);
-
-
-
         return true;
     }
 
@@ -148,7 +148,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings_btn:
                 Intent intent = new Intent(MainActivity.this,SetupActivity.class);
                 startActivity(intent);
-
+                return true;
+            case R.id.action_friends:
+                Intent FriendsIntent = new Intent(MainActivity.this,FriendActivity.class);
+                startActivity(FriendsIntent);
                 return true;
             case R.id.action_logout_btn:
                 logout();

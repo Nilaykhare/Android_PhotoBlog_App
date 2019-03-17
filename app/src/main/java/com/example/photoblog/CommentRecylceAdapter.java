@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -55,6 +54,7 @@ public class CommentRecylceAdapter extends RecyclerView.Adapter<CommentRecylceAd
         String commentID = commentsList.get(i).CommentId;
 
         viewHolder.setIsRecyclable(false);
+
         String commentMessage = commentsList.get(i).getMessage();
         viewHolder.setComment_message(commentMessage);
 
@@ -111,8 +111,8 @@ public class CommentRecylceAdapter extends RecyclerView.Adapter<CommentRecylceAd
         }
         public void setUserData(String name,String image)
         {
-            comment_user_name =  mView.findViewById(R.id.comment_username);
-            comment_user_image = mView.findViewById(R.id.comment_image);
+            comment_user_name =  mView.findViewById(R.id.comment_user_name);
+            comment_user_image = mView.findViewById(R.id.comment_user_image);
 
             comment_user_name.setText(name);
             RequestOptions placeHolder = new RequestOptions();

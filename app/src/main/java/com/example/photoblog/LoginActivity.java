@@ -88,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser cuurentuser = mAuth.getCurrentUser();
         if (cuurentuser != null){
            sendToMain();
-
         }
     }
 

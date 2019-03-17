@@ -1,14 +1,23 @@
 package com.example.photoblog;
 
 public class User {
-    public  String image ,name;
+    public  String image ,name,id;
 
-    public User(String image, String name) {
+    public User(String image, String name,String id) {
         this.image = image;
         this.name = name;
+        this.id = id;
     }
 
     public User() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImage() {
