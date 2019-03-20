@@ -13,28 +13,28 @@
         android:roundIcon="@mipmap/icon_for_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgetPasswordActivity"
-            android:parentActivityName=".LoginActivity"></activity>
+        <activity android:name=".Activties.ForgetPasswordActivity"
+            android:parentActivityName=".Activties.LoginActivity"></activity>
         <activity
-            android:name=".FriendActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".Activties.FriendActivity"
+            android:parentActivityName=".Activties.MainActivity" />
         <activity
-            android:name=".ViewBlogUserProfile"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".PhotoView" />
+            android:name=".Activties.ViewBlogUserProfile"
+            android:parentActivityName=".Activties.MainActivity" />
+        <activity android:name=".Activties.PhotoView" />
         <activity
-            android:name=".CommentActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".Activties.CommentActivity"
+            android:parentActivityName=".Activties.MainActivity" />
         <activity
-            android:name=".NewPostActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".SetupActivity" />
-        <activity android:name=".RegisterActivity" />
+            android:name=".Activties.NewPostActivity"
+            android:parentActivityName=".Activties.MainActivity" />
+        <activity android:name=".Activties.SetupActivity" />
+        <activity android:name=".Activties.RegisterActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activties.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activties.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

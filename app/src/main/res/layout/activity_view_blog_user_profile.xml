@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewBlogUserProfile">
+    tools:context=".Activties.ViewBlogUserProfile">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/blog_view_profile_user_image"
