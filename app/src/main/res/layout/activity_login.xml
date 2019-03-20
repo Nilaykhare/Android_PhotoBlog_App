@@ -95,7 +95,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:background="#ffffff"
-        android:text="@string/singup"
+        android:text="SignUp"
         android:textAllCaps="false"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/forget_btn"

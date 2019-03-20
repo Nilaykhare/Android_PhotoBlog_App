@@ -187,6 +187,7 @@ public class SetupActivity extends AppCompatActivity {
                     Toast.makeText(SetupActivity.this,"User setting updated ",Toast.LENGTH_LONG).show();
                     startActivity(new Intent(SetupActivity.this,MainActivity.class));
                     setupProgressBar.setVisibility(View.INVISIBLE);
+                    finish();
                 }
                 else
                 {
