@@ -42,7 +42,7 @@ public class SetupActivity extends AppCompatActivity {
 
     private CircleImageView setupImage;
     private static  final int GalleryPick = 1;
-    private Uri mainImageUri=null;
+    private Uri mainImageUri= Uri.parse("https://firebasestorage.googleapis.com/v0/b/photoblog-2e3c0.appspot.com/o/post_images%2Fprofile.png?alt=media&token=b232695d-f06b-466e-aa16-3ca14bdd1931");
     private EditText setUpName;
     private Button setUpBtn;
     private String user_id;
@@ -232,4 +232,5 @@ public class SetupActivity extends AppCompatActivity {
         }
 
     }
+
 }
