@@ -50,11 +50,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setTitle("Photo Blog");
 
-
-
-
-
-
         if(mAuth.getCurrentUser() != null){
             mainBottomNav = findViewById(R.id.mainBottomNav);
             addPostBtn = findViewById(R.id.add_post_btn);
@@ -63,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         notificationFragment =  new NotificationsFragment();
         accountFragment =  new AccountFragment();
+
+
+
         //whenever mainactivity starts home fragment is setfirst(you can say it as default frgament)
         replaceFragment(homeFragment);
 

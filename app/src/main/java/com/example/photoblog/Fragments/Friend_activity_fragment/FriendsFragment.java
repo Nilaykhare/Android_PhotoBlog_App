@@ -59,7 +59,7 @@ public class FriendsFragment extends Fragment {
         firebaseAuth =  FirebaseAuth.getInstance();
         String current_user_id=firebaseAuth.getCurrentUser().getUid();
 
-        firebaseFirestore.collection("Notification/"+current_user_id+"/Friends").orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firebaseFirestore.collection("Notification/"+current_user_id+"/Friends").orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(getActivity(),new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 

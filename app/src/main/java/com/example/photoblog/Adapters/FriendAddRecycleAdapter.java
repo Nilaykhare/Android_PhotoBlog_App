@@ -1,5 +1,6 @@
 package com.example.photoblog.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -73,7 +74,7 @@ public class FriendAddRecycleAdapter extends RecyclerView.Adapter<FriendAddRecyc
         final String current_user_id = firebaseAuth.getCurrentUser().getUid();
 
         // ######## visibility of corresponding button according to status of request#######
-        firebaseFirestore.collection("Notification/" + current_user_id + "/Friends").document(user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Notification/" + current_user_id + "/Friends").document(user_id).addSnapshotListener((Activity) context, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent( DocumentSnapshot documentSnapshot,  FirebaseFirestoreException e) {
                 if (documentSnapshot.exists())
@@ -82,7 +83,7 @@ public class FriendAddRecycleAdapter extends RecyclerView.Adapter<FriendAddRecyc
                 }
                 else{
 
-                    firebaseFirestore.collection("Notification/" + user_id + "/Requests").document(current_user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    firebaseFirestore.collection("Notification/" + user_id + "/Requests").document(current_user_id).addSnapshotListener((Activity) context,new EventListener<DocumentSnapshot>() {
                         @Override
                         public void onEvent( DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                             if (documentSnapshot.exists())
@@ -106,7 +107,7 @@ public class FriendAddRecycleAdapter extends RecyclerView.Adapter<FriendAddRecyc
                 Map<String, Object> friendrequstMap = new HashMap<>();
                 friendrequstMap.put("user_requst_id", current_user_id );
                 friendrequstMap.put("timestamp", FieldValue.serverTimestamp());
-                firebaseFirestore.collection("Notification/" + user_id + "/Requests").document(current_user_id).set(friendrequstMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseFirestore.collection("Notification/" + user_id + "/Requests").document(current_user_id).set(friendrequstMap).addOnCompleteListener((Activity) context,new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
@@ -124,7 +125,7 @@ public class FriendAddRecycleAdapter extends RecyclerView.Adapter<FriendAddRecyc
         viewHolder.requestCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("Notification/" + user_id + "/Requests").document(current_user_id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                firebaseFirestore.collection("Notification/" + user_id + "/Requests").document(current_user_id).delete().addOnSuccessListener((Activity) context, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(context, "Request Cancelled", Toast.LENGTH_SHORT).show();
@@ -161,7 +162,7 @@ public class FriendAddRecycleAdapter extends RecyclerView.Adapter<FriendAddRecyc
                 friendMap.put("user_requst_id",user_id);
                 friendMap.put("timestamp", FieldValue.serverTimestamp());
                 friendMap.put("friendship","yes");
-                firebaseFirestore.collection("Notification/" + current_user_id + "/Friends").document(user_id).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseFirestore.collection("Notification/" + current_user_id + "/Friends").document(user_id).delete().addOnCompleteListener((Activity) context,new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){

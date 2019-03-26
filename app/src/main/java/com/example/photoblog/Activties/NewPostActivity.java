@@ -88,7 +88,7 @@ public class NewPostActivity extends AppCompatActivity {
                 if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                     if (ContextCompat.checkSelfPermission(NewPostActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
                     {
-                        Toast.makeText(NewPostActivity.this,"permission Denied",Toast.LENGTH_LONG).show();
+                        Toast.makeText(NewPostActivity.this,"permission Denied",Toast.LENGTH_SHORT).show();
                         ActivityCompat.requestPermissions(NewPostActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
                     }
                     else{
@@ -157,16 +157,16 @@ public class NewPostActivity extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                                 if (task.isSuccessful()){
 
-
-
                                                     Toast.makeText(NewPostActivity.this,"Post was added",Toast.LENGTH_LONG).show();
                                                     startActivity(new Intent(NewPostActivity.this,MainActivity.class));
                                                     finish();
+
                                                 }else
                                                 {
                                                     newPostProgress.setVisibility(View.INVISIBLE);
                                                     String error = task.getException().getMessage();
                                                     Toast.makeText(NewPostActivity.this,"Error : "+ error,Toast.LENGTH_LONG).show();
+
                                                 }
                                             }
                                         });
@@ -175,10 +175,13 @@ public class NewPostActivity extends AppCompatActivity {
 
                                     }
                                 })
+
+
                                         .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
 
+                                        Toast.makeText(NewPostActivity.this, " Upload Task Failed ", Toast.LENGTH_SHORT).show();
                                     }
                                 });
 

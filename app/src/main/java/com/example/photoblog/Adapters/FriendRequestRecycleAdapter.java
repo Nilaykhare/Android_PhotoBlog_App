@@ -1,5 +1,6 @@
 package com.example.photoblog.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -64,7 +65,7 @@ public class FriendRequestRecycleAdapter extends RecyclerView.Adapter<FriendRequ
 
         final String user_id = request_list.get(i).getUser_requst_id();
 
-        firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener((Activity) context,new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -91,12 +92,12 @@ public class FriendRequestRecycleAdapter extends RecyclerView.Adapter<FriendRequ
                 friendMap2.put("user_requst_id",current_user_id);
                 friendMap2.put("timestamp", FieldValue.serverTimestamp());
                 friendMap2.put("friendship","yes");
-                firebaseFirestore.collection("Notification/" + current_user_id + "/Friends").document(user_id).set(friendMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseFirestore.collection("Notification/" + current_user_id + "/Friends").document(user_id).set(friendMap).addOnCompleteListener((Activity) context, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
 
-                            firebaseFirestore.collection("Notification/" + user_id + "/Friends").document(current_user_id).set(friendMap2).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            firebaseFirestore.collection("Notification/" + user_id + "/Friends").document(current_user_id).set(friendMap2).addOnCompleteListener((Activity) context,new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
@@ -104,7 +105,7 @@ public class FriendRequestRecycleAdapter extends RecyclerView.Adapter<FriendRequ
                                         firebaseFirestore.collection("Notification/"+current_user_id+"/Requests").document(user_id).delete();
                                         request_list.remove(i);
                                         notifyDataSetChanged();
-                                        firebaseFirestore.collection("Notification/"+user_id+"/Requests").document(current_user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                        firebaseFirestore.collection("Notification/"+user_id+"/Requests").document(current_user_id).addSnapshotListener((Activity) context, new EventListener<DocumentSnapshot>() {
                                             @Override
                                             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                                                 if (documentSnapshot.exists()){
@@ -124,7 +125,7 @@ public class FriendRequestRecycleAdapter extends RecyclerView.Adapter<FriendRequ
        viewHolder.rejectRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("Notification/"+current_user_id+"/Requests").document(user_id).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseFirestore.collection("Notification/"+current_user_id+"/Requests").document(user_id).delete().addOnCompleteListener((Activity) context, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){

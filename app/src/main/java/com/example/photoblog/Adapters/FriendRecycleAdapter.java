@@ -1,5 +1,6 @@
 package com.example.photoblog.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -64,7 +65,7 @@ public class FriendRecycleAdapter extends RecyclerView.Adapter<FriendRecycleAdap
 
         final String user_id = request_list.get(i).getUser_requst_id();
 
-        firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener((Activity) context, new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -81,7 +82,7 @@ public class FriendRecycleAdapter extends RecyclerView.Adapter<FriendRecycleAdap
 
         final String current_user_id = firebaseAuth.getCurrentUser().getUid();
 
-        firebaseFirestore.collection("Notification/" + current_user_id + "/Friends").document(user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Notification/" + current_user_id + "/Friends").document(user_id).addSnapshotListener((Activity) context, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent( DocumentSnapshot documentSnapshot,  FirebaseFirestoreException e) {
                 if (documentSnapshot.exists())

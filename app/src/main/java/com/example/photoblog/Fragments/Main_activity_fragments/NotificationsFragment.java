@@ -58,6 +58,8 @@ public class NotificationsFragment extends Fragment {
         firebaseAuth =  FirebaseAuth.getInstance();
 
         currentuser_id = firebaseAuth.getCurrentUser().getUid();
+
+
         try {
             firebaseFirestore.collection("Notification/" + currentuser_id + "/Notification").orderBy("timestamp", Query.Direction.DESCENDING).addSnapshotListener(getActivity(),new EventListener<QuerySnapshot>() {
                 @Override

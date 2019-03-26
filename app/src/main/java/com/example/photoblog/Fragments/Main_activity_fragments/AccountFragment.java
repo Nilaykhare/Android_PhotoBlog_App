@@ -69,7 +69,7 @@ public class AccountFragment extends Fragment {
         blog_list =  new ArrayList<>();
         user_list =  new ArrayList<>();
 
-        View view = inflater.inflate(R.layout.fragment_account1, container, false);
+        final View view = inflater.inflate(R.layout.fragment_account1, container, false);
 
         blog_list_view = view.findViewById(R.id.profile_blog_posts);
         blogRecycleAdapter = new BlogRecycleAdapter(blog_list,user_list);
@@ -96,7 +96,7 @@ public class AccountFragment extends Fragment {
 
                     RequestOptions placeholderRequest = new RequestOptions();
                     placeholderRequest.placeholder(R.drawable.ic_launcher);
-                    Glide.with(getActivity()).setDefaultRequestOptions(placeholderRequest).load(image).into(profile_user_image);
+                    Glide.with(view).setDefaultRequestOptions(placeholderRequest).load(image).into(profile_user_image);
                 }
             }
         });

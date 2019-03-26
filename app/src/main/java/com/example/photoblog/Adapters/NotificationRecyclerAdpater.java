@@ -1,5 +1,6 @@
 package com.example.photoblog.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -52,7 +53,7 @@ public class NotificationRecyclerAdpater extends RecyclerView.Adapter<Notificati
     public void onBindViewHolder(@NonNull final NotificationRecyclerAdpater.ViewHolder viewHolder, int i) {
         String user_id = notification_list.get(i).getUser_id();
 
-        firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("User").document(user_id).get().addOnCompleteListener((Activity) context,new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -69,7 +70,7 @@ public class NotificationRecyclerAdpater extends RecyclerView.Adapter<Notificati
         viewHolder.setNotification_text(message);
         final String blogPostId = notification_list.get(i).getBlog_post_id();
 
-        firebaseFirestore.collection("Posts").document(blogPostId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Posts").document(blogPostId).get().addOnCompleteListener((Activity) context,new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){

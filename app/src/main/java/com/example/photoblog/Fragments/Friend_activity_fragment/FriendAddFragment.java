@@ -55,23 +55,23 @@ public class FriendAddFragment extends Fragment {
         firebaseFirestore =  FirebaseFirestore.getInstance();
         firebaseAuth =  FirebaseAuth.getInstance();
 
+        if (firebaseAuth.getCurrentUser() !=null) {
 
-        firebaseFirestore.collection("User").orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+            firebaseFirestore.collection("User").orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
-                for (DocumentChange doc : documentSnapshots.getDocumentChanges())
-                {
+                    for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
-                    if (doc.getType() == DocumentChange.Type.ADDED)
-                    {
-                        User user = doc.getDocument().toObject(User.class);
-                        user_list.add(user);
-                        friendAddRecycleAdapter.notifyDataSetChanged();
+                        if (doc.getType() == DocumentChange.Type.ADDED) {
+                            User user = doc.getDocument().toObject(User.class);
+                            user_list.add(user);
+                            friendAddRecycleAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
         // Inflate the layout for this fragment
         return view;

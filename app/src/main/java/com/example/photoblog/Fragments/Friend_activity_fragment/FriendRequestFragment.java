@@ -57,35 +57,39 @@ public class FriendRequestFragment extends Fragment {
 
         firebaseFirestore =  FirebaseFirestore.getInstance();
         firebaseAuth =  FirebaseAuth.getInstance();
-        String current_user_id=firebaseAuth.getCurrentUser().getUid();
 
-        firebaseFirestore.collection("Notification/"+current_user_id+"/Requests").orderBy("timestamp",Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
-                for (DocumentChange doc : documentSnapshots.getDocumentChanges())
-                {
+        if (firebaseAuth.getCurrentUser()!=null) {
 
-                    if (doc.getType() == DocumentChange.Type.ADDED)
-                    {
-                          FriendRequest friendRequest = doc.getDocument().toObject(FriendRequest.class);
-                          request_list.add(friendRequest);
-                          friendRequestRecycleAdapter.notifyDataSetChanged();
+            String current_user_id=firebaseAuth.getCurrentUser().getUid();
+
+            firebaseFirestore.collection("Notification/" + current_user_id + "/Requests").orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+
+                    for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+
+                        if (doc.getType() == DocumentChange.Type.ADDED) {
+                            FriendRequest friendRequest = doc.getDocument().toObject(FriendRequest.class);
+                            request_list.add(friendRequest);
+                            friendRequestRecycleAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                }
+            });
+
+            firebaseFirestore.collection("Notification/" + current_user_id + "/Requests").addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
+                    if (queryDocumentSnapshots.isEmpty()) {
+
+                        Toast.makeText(getActivity(), "NO REQUESTS", Toast.LENGTH_SHORT).show();
                     }
                 }
+            });
 
-            }
-        });
-
-        firebaseFirestore.collection("Notification/"+current_user_id+"/Requests").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
-                if (queryDocumentSnapshots.isEmpty()){
-
-                    Toast.makeText(getActivity(), "NO REQUESTS", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        }
 
         // Inflate the layout for this fragment
         return view;

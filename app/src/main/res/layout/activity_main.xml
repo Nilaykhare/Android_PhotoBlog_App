@@ -25,13 +25,15 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
+        android:src="@mipmap/blog_post_add_image"
+        app:backgroundTint="@color/common_google_signin_btn_text_dark_default"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="right|bottom"
         app:layout_constraintBottom_toTopOf="@+id/mainBottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:maxImageSize="55dp" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"

@@ -111,11 +111,11 @@ public class FriendsPostFragment extends Fragment {
                                 final BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
 
                                 final String blogUserId =  doc.getDocument().getString("user_id");
-                                firebaseFirestore.collection("Notification/" + firebaseAuth.getCurrentUser().getUid() + "/Friends").document(blogUserId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                firebaseFirestore.collection("Notification/" + firebaseAuth.getCurrentUser().getUid() + "/Friends").document(blogUserId).addSnapshotListener(getActivity(),new EventListener<DocumentSnapshot>() {
                                     @Override
                                     public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                                         if (documentSnapshot.exists()){
-                                            firebaseFirestore.collection("User").document(Objects.requireNonNull(blogUserId)).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            firebaseFirestore.collection("User").document(Objects.requireNonNull(blogUserId)).get().addOnCompleteListener(getActivity(),new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if (task.isSuccessful()){
@@ -168,11 +168,11 @@ public class FriendsPostFragment extends Fragment {
                             String blogPostId = doc.getDocument().getId();
                             final BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
                             final String blogUserId =  doc.getDocument().getString("user_id");
-                            firebaseFirestore.collection("Notification/" + firebaseAuth.getCurrentUser().getUid() + "/Friends").document(blogUserId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            firebaseFirestore.collection("Notification/" + firebaseAuth.getCurrentUser().getUid() + "/Friends").document(blogUserId).addSnapshotListener(getActivity(),new EventListener<DocumentSnapshot>() {
                                 @Override
                                 public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                                     if (documentSnapshot.exists()){
-                                        firebaseFirestore.collection("User").document(Objects.requireNonNull(blogUserId)).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        firebaseFirestore.collection("User").document(Objects.requireNonNull(blogUserId)).get().addOnCompleteListener(getActivity(),new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                 if (task.isSuccessful()){

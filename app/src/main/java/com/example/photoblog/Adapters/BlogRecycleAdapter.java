@@ -103,7 +103,7 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
                 viewHolder.blogDelIcon.setVisibility(View.VISIBLE);
                 viewHolder.blogDeleteBtn.setVisibility(View.INVISIBLE);
 
-                firebaseFirestore.collection("Posts").document(blogPostId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                firebaseFirestore.collection("Posts").document(blogPostId).delete().addOnSuccessListener((Activity) context, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
@@ -142,7 +142,7 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
                 @Override
                 public void onClick(View v) {
 
-                    firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    firebaseFirestore.collection("Posts/" + blogPostId + "/Likes").document(currentUserId).get().addOnCompleteListener((Activity) context, new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (!task.getResult().exists()) {
@@ -221,7 +221,8 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
 
                     }
                 });
-            }catch (Exception e){}
+            }catch (Exception e){
+            }
 
             viewHolder.blogCommentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -234,7 +235,7 @@ public class BlogRecycleAdapter extends RecyclerView.Adapter<BlogRecycleAdapter.
             });
 
             String user_id1 =  blog_list.get(i).getUser_id();
-            firebaseFirestore.collection("User").document(user_id1).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            firebaseFirestore.collection("User").document(user_id1).get().addOnCompleteListener((Activity) context, new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()){

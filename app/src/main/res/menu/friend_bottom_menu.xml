@@ -3,21 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/bottom_friends"
-        android:icon="@mipmap/baseline_home_black_24"
-        android:title="friends" />
+        android:icon="@drawable/friendsfragment"
+        android:title="friends"
+
+        />
+
     <item
         android:id="@+id/bottom_requests"
-        android:icon="@mipmap/baseline_notification_important_black_24"
-        android:title="Requests" />
+        android:icon="@drawable/friend_requests_fragment_icon"
+        android:title="Requests"
+
+        />
 
     <item
+
         android:id="@+id/bottom_add_Friends"
         android:icon="@mipmap/baseline_person_black_24"
-        android:title="Add Friends" />
+        android:title="Add Friends"
+
+        />
 
     <item
+
         android:id="@+id/friends_post"
-        android:icon="@mipmap/action_delete_icon"
-        android:title="Friends post" />
+        android:icon="@drawable/friend_post_fragment_icon"
+        android:title="Friends post"
+
+        />
 
 </menu>
