@@ -18,9 +18,14 @@ import com.example.photoblog.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +46,7 @@ public class ChattingActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private String current_user_id;
     private String reciever_id;
+    private String reciever_name;
 
     private RecyclerView chatRecyclerView;
     private ChatRecycleAdapter chatRecycleAdapter;
@@ -53,9 +59,11 @@ public class ChattingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chatting);
 
         reciever_id = getIntent().getStringExtra("messageToWhom's id");
+        reciever_name = getIntent().getStringExtra("user_name");
 
         chat_toolbar = findViewById(R.id.chat_toolbar);
         setSupportActionBar(chat_toolbar);
+        getSupportActionBar().setTitle(reciever_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         messageField = findViewById(R.id.chat_message_field);
@@ -67,18 +75,9 @@ public class ChattingActivity extends AppCompatActivity {
 
         messageRetrivingList = new ArrayList<>();
         chatRecycleAdapter = new ChatRecycleAdapter(messageRetrivingList);
-        chatRecyclerView.setHasFixedSize(true);
+
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChattingActivity.this));
         chatRecyclerView.setAdapter(chatRecycleAdapter);
-
-        /*
-        commentsList = new ArrayList<>();
-        commentRecycleAdapter = new CommentRecylceAdapter(commentsList);
-        comment_list.setHasFixedSize(true);
-        comment_list.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
-        comment_list.setAdapter(commentRecycleAdapter);
-
-         */
 
         current_user_id = firebaseAuth.getCurrentUser().getUid();
 
@@ -92,19 +91,20 @@ public class ChattingActivity extends AppCompatActivity {
 
                     //add details
                     final Map<String,Object> send_text =  new HashMap<>();
-                    send_text.put("timestamp",currentTime.toString());
+                    send_text.put("timestamp",FieldValue.serverTimestamp());
                     send_text.put("message_sent_to_user",reciever_id);
                     send_text.put("message",text_message);
 
-                    firebaseFirestore.collection("Chats/"+current_user_id+"/"+reciever_id).document().set(send_text).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    firebaseFirestore.collection("Chats/"+current_user_id+"/"+reciever_id).document().set(send_text).addOnCompleteListener(ChattingActivity.this,new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful())
                             {
-                                firebaseFirestore.collection("Chats/"+reciever_id+"/"+current_user_id).document().set(send_text).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                messageField.setText("");
+                                firebaseFirestore.collection("Chats/"+reciever_id+"/"+current_user_id).document().set(send_text).addOnCompleteListener(ChattingActivity.this, new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        messageField.setText("");
+
                                     }
                                 });
                             }
@@ -123,7 +123,22 @@ public class ChattingActivity extends AppCompatActivity {
             }
         });
 
+        firebaseFirestore.collection("Chats/"+current_user_id+"/"+reciever_id).orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(ChattingActivity.this,new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
 
+                if (!queryDocumentSnapshots.isEmpty()){
+                    for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()){
+
+                        if (doc.getType()==DocumentChange.Type.ADDED){
+                            MessageRetriving message =doc.getDocument().toObject(MessageRetriving.class);
+                            messageRetrivingList.add(message);
+                            chatRecycleAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        });
 
 
     }

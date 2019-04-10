@@ -59,6 +59,7 @@ public class ViewBlogUserProfile extends AppCompatActivity {
     private Button deleteRequest;
     private Button messageFriend;
     private Toolbar toolbar;
+    private  String blog_user_name;
     int t = 0;
 
     @Override
@@ -95,7 +96,7 @@ public class ViewBlogUserProfile extends AppCompatActivity {
 
         if (!user_id.equals(blog_user_id))
         {
-            firebaseFirestore.collection("Notification/" + user_id + "/Friends").document(blog_user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            firebaseFirestore.collection("Notification/" + user_id + "/Friends").document(blog_user_id).addSnapshotListener(ViewBlogUserProfile.this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                     if (documentSnapshot.exists()) {
@@ -138,7 +139,7 @@ public class ViewBlogUserProfile extends AppCompatActivity {
         deleteRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("Notification/" + blog_user_id + "/Requests").document(user_id).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseFirestore.collection("Notification/" + blog_user_id + "/Requests").document(user_id).delete().addOnCompleteListener(ViewBlogUserProfile.this,new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
@@ -154,11 +155,11 @@ public class ViewBlogUserProfile extends AppCompatActivity {
         blogRemoveFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("Notification/" + blog_user_id + "/Friends").document(user_id).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseFirestore.collection("Notification/" + blog_user_id + "/Friends").document(user_id).delete().addOnCompleteListener(ViewBlogUserProfile.this,new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            firebaseFirestore.collection("Notification/" +user_id + "/Friends").document(blog_user_id ).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            firebaseFirestore.collection("Notification/" +user_id + "/Friends").document(blog_user_id ).delete().addOnCompleteListener(ViewBlogUserProfile.this,new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
@@ -180,9 +181,9 @@ public class ViewBlogUserProfile extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
-                    String user_name =  task.getResult().getString("name");
+                    blog_user_name =  task.getResult().getString("name");
                     String image =  task.getResult().getString("image");
-                    profile_user_name.setText(user_name);
+                    profile_user_name.setText(blog_user_name);
 
                     RequestOptions placeholderRequest = new RequestOptions();
                     placeholderRequest.placeholder(R.drawable.ic_launcher);
@@ -216,11 +217,12 @@ public class ViewBlogUserProfile extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent chatIntent = new Intent(ViewBlogUserProfile.this,ChattingActivity.class);
                     chatIntent.putExtra("messageToWhom's id",blog_user_id);
+                    chatIntent.putExtra("user_name",blog_user_name);
                     startActivity(chatIntent);
                 }
             });
 
-        Query firstQuery;firstQuery = firebaseFirestore.collection("Posts").orderBy("timestamp",Query.Direction.DESCENDING);
+        Query firstQuery = firebaseFirestore.collection("Posts").orderBy("timestamp",Query.Direction.DESCENDING);
 
             firstQuery.addSnapshotListener(ViewBlogUserProfile.this,new EventListener<QuerySnapshot>() {
                 @Override
