@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment {
         blog_list_view.setAdapter(blogRecycleAdapter);
         firebaseAuth = FirebaseAuth.getInstance();
 
+
         if (firebaseAuth.getCurrentUser() !=null) {
 
             firebaseFirestore = FirebaseFirestore.getInstance();

@@ -7,4 +7,6 @@
     
     <color name="likeBtnGray">#747474</color>
     <color name="likeBtnAccent">#F44336</color>
+    <color name="Message_sent">#2DF44336</color>
+    <color name="recieved_message">#302196F3</color>
 </resources>

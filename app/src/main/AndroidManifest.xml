@@ -13,8 +13,10 @@
         android:roundIcon="@mipmap/icon_for_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activties.ForgetPasswordActivity"
-            android:parentActivityName=".Activties.LoginActivity"></activity>
+        <activity android:name=".Activties.ChattingActivity"></activity>
+        <activity
+            android:name=".Activties.ForgetPasswordActivity"
+            android:parentActivityName=".Activties.LoginActivity" />
         <activity
             android:name=".Activties.FriendActivity"
             android:parentActivityName=".Activties.MainActivity" />
